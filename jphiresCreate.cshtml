@@ -1,0 +1,121 @@
+﻿@model JobPlacementDashboard.Models.JPHire
+
+<div class="container">
+    <div class="col-sm-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div>
+                <h4>Add New Job</h4>
+                <hr />
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div>
+                <label for="company-name" class="createlabel">@Html.LabelFor(model => model.JPCompanyName)</label>
+                @Html.EditorFor(model => model.JPCompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPCompanyName, "", new { @class = "text-danger" })
+            </div>
+            <br />
+
+            <div>
+                <label for="job-title" class="createlabel">@Html.LabelFor(model => model.JPJobTitle)</label>
+                @Html.EditorFor(model => model.JPJobTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPJobTitle, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="job-category" class="createlabel">@Html.LabelFor(model => model.JPJobCategory)</label>
+                @Html.EnumDropDownListFor(model => model.JPJobCategory, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JPJobCategory, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="job-salary" class="createlabel">@Html.LabelFor(model => model.JPSalary)</label>
+                @Html.EditorFor(model => model.JPSalary, new { htmlAttributes = new { @class = "form-control", @id = "job-salary-input" } })
+                @Html.ValidationMessageFor(model => model.JPSalary, "", new { @class = "text-danger" })
+
+                <div class="col-md-10">
+                    <input type="radio" name="SalaryType" id="Hourly" value="Hourly" />Hourly
+                    <input type="radio" name="SalaryType" id="Annually" value="Annually" />Annually
+                </div>
+            </div>
+            <br />
+            <br />
+
+
+            <div>
+                <label for="company-city" class="createlabel">@Html.LabelFor(model => model.JPCompanyCity)</label>
+                @Html.EditorFor(model => model.JPCompanyCity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPCompanyCity, "", new { @class = "text-danger" })
+
+            </div>
+            <br />
+            <div>
+                <label for="company-state" class="createlabel">@Html.LabelFor(model => model.JPCompanyState)</label>
+                @Html.EnumDropDownListFor(model => model.JPCompanyState, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JPCompanyState, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="careers-page" class="createlabel">@Html.LabelFor(model => model.JPCareersPage)</label>
+                @Html.EditorFor(model => model.JPCareersPage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPCareersPage, "", new { @class = "text-danger" })
+            </div>
+            <br/>
+            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+            {
+                @*Deleted check box for "second job"*@
+                <div class="row justify-content-between">
+
+                    <input type="submit" value="Submit" class="btn btn-default form-button-left" />
+                    <input type="button" value="Back to List" class="btn btn-default form-button-right" onclick="location.href='@Url.Action("Index", "JPHires")'" />
+
+                </div>
+            }
+            else
+            {
+                <div class="form-group" id="inline1">
+                    <div class="text-center">
+                        <a href="../Account/Register"> You must be registered and logged in as a student before you can create a new hire.</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+        }
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+            function CalcForHourly(hourlySalary) {
+                return hourlySalary * 2080;
+            }
+
+            $("#job-salary-input").blur(function () {
+                var salary = $("#job-salary-input").val();
+
+                $("input[value='Hourly']").click(function () {
+                    $("input[value='Submit']").click(function () {
+                        $("#job-salary-input").val(CalcForHourly(salary));
+                    })
+                })
+
+                $("input[value='Annually']").click(function () {
+                    $("input[value='Submit']").click(function () {
+                        var salary = $("#job-salary-input").val();
+                        $("#job-salary-input").val(salary);
+                    })
+                })
+            })
+        })
+    </script>
+    }
