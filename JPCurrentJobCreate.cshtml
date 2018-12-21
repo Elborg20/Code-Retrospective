@@ -1,0 +1,77 @@
+﻿@model JobPlacementDashboard.Models.JPCurrentJob
+
+<div class=" container">
+    <div class="col-sm-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        <div class="row">
+            <div>
+                <h4>Add your Current Job</h4>
+                <hr />
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div>
+                <label for="company-name">@Html.LabelFor(model => model.JPCompanyName, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EditorFor(model => model.JPCompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPCompanyName, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="job-title">@Html.LabelFor(model => model.JPJobTitle, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EditorFor(model => model.JPJobTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPJobTitle, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="job-category">@Html.LabelFor(model => model.JPJobCategory, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EnumDropDownListFor(model => model.JPJobCategory, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JPJobCategory, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="salary">@Html.LabelFor(model => model.JPSalary, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EditorFor(model => model.JPSalary, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPSalary, "", new { @class = "text-danger" })
+                <input type="radio" name="SalaryType" id="Hourly" value="Hourly" />Hourly
+                <input type="radio" name="SalaryType" id="Annually" value="Annually" />Annually
+            </div>
+            <br />
+            <div>
+                <label for="company-city">@Html.LabelFor(model => model.JPCompanyCity, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EditorFor(model => model.JPCompanyCity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPCompanyCity, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="company-state">@Html.LabelFor(model => model.JPCompanyState, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EnumDropDownListFor(model => model.JPCompanyState, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JPCompanyState, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div>
+                <label for="careers-page">@Html.LabelFor(model => model.JPCareersPage, htmlAttributes: new { @class = "jpCurrentJobsLabel" })</label>
+                @Html.EditorFor(model => model.JPCareersPage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JPCareersPage, "", new { @class = "text-danger" })
+            </div>
+            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+            {
+                <div class="container">
+                    <div class="form-group" id="inline1-btn">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                        <input type="button" value="Back To List" class="btn btn-default backtolist" onclick="location.href='@Url.Action("Index", "JPCurrentJobs")'" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <div id="JPCurrentJobs-Create-error-message">
+                        <a href="../Account/Register" id="JPCurrentJobs-Create-error-text">You must register and be logged in as a student in order to log your current job.</a>
+                    </div>
+                </div>
+            }
+        </div>
+        }
+    </div>
+</div>
