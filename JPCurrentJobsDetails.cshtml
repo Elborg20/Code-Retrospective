@@ -1,0 +1,172 @@
+﻿@model JobPlacementDashboard.Models.JPCurrentJob
+
+
+<div>
+
+    <div class="banner">
+        <img src="https://www.pragnam.net/wp-content/uploads/2018/01/software-banner.jpg" alt="Software" class="full-width-image" title="" style="">
+        <div class="text-block">
+            <h1 id="toWhite">
+                Congratulations @Html.DisplayFor(model => model.ApplicationUser.FirstName) @Html.DisplayFor(model => model.ApplicationUser.LastName)
+                <br />
+                <br />
+                on your recent hire at @Html.DisplayFor(model => model.JPCompanyName)!
+            </h1>
+        </div>
+    </div>
+
+    <br />
+    <div class="container " id="deleteAppContainer">
+        <div class="col-sm-12 currentEploymentDetail">
+            <table class="deleting-app table">
+                <tr>
+                    <th id="deleteAppTable">
+                        @Html.DisplayNameFor(model => model.JPCompanyName)
+                    </th>
+                </tr>
+
+                <tr>
+                    <td id="deleteAppTable">
+                        @Html.DisplayFor(model => model.JPCompanyName)
+                    </td>
+                </tr>
+
+                <tr>
+                    <th id="deleteAppTable">
+                        @Html.DisplayNameFor(model => model.JPJobTitle)
+                    </th>
+                </tr>
+
+                <tr>
+                    <td id="deleteAppTable">
+                        @Html.DisplayFor(model => model.JPJobTitle)
+                    </td>
+                </tr>
+
+                <tr>
+                    <th id="deleteAppTable">
+                        @Html.DisplayNameFor(model => model.JPJobCategory)
+                    </th>
+                </tr>
+
+                <tr>
+                    <td id="deleteAppTable">
+                        @Html.DisplayFor(model => model.JPJobCategory)
+                    </td>
+                </tr>
+
+                <tr>
+                    <th id="deleteAppTable">
+                        @Html.DisplayNameFor(model => model.JPSalary)
+                    </th>
+                </tr>
+
+                <tr>
+                    <td id="deleteAppTable">
+                        @Html.DisplayFor(model => model.JPSalary)
+                    </td>
+                </tr>
+
+                <tr>
+                    <th id="deleteAppTable">
+                        Work Location
+                    </th>
+                </tr>
+
+                <tr>
+                    <td id="deleteAppTable">
+                        @Html.DisplayFor(model => model.JPCompanyCity), @Html.DisplayFor(model => model.JPCompanyState)
+                    </td>
+                </tr>          
+                <tr>
+                    <th id="deleteAppTable">
+                        @Html.DisplayNameFor(model => model.JPCareersPage)
+                    </th>
+                </tr>
+                <tr>
+                    <td id="deleteAppTable">
+                        @Html.DisplayFor(model => model.JPCareersPage)
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group" id="inline1-btn">          
+            <input type="button" value="Edit" class="btn btn-default" onclick="location.href='@Url.Action("Edit", "JPCurrentJobs", new { id = Model.JPCurrentId })'" />
+            @*@Html.ActionLink("Back to List", "Index")*@
+            <input type="button" value="Back To List" class="btn btn-default" onclick="location.href='@Url.Action("Index", "JPCurrentJobs")'" />          
+        </div>
+
+
+    </div>
+
+    @*<dl class="dl-horizontal mt-100">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPCompanyName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPCompanyName)
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPJobTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPJobTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPJobCategory)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPJobCategory)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPSalary)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPSalary)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPCompanyCity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPCompanyCity)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPCompanyState)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPCompanyState)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JPCareersPage)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JPCareersPage)
+            </dd>
+
+        </dl>*@
+
+
+</div>
+
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.JPCurrentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
+
+
+
+
