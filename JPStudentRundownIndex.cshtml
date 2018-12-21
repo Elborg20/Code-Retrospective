@@ -1,0 +1,246 @@
+﻿@model IEnumerable<JobPlacementDashboard.ViewModels.JPStudentRundown>
+
+<h3>&nbsp;&nbsp;Active JP Students</h3>
+<p><br /></p>
+
+@using (Html.BeginForm())
+{
+<p>
+    <div id="RundownSearchContainer" margin:0 auto;">
+        <div class="row">
+            <div class="col-md-6">
+                @*@Html.ActionLink("Reset", "Networking", Model, new { @class = "btn btn-primary", @id = "btnsize" })*@
+                <div class="jpstudent-search" id="custom-search-input">
+                    <div class="input-group">
+                        <input type="search" name="SearchString" class="input-lg col-md-12" id="searchStyle" placeholder="Find by name or location" />
+                        <span class="input-group-btn ActiveStudentButtons">
+                            <button type="submit" class="btn btn-info btn-lg">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"><br /></div>
+            <div class="col-md-6">
+                @Html.ActionLink("Ready To Graduate", "Index", Model, new { sortOrder = ViewBag.GraduateSortParm, @class = "btn btn-lg btn-primary mb-5", @id = "btnsizeJPR" })
+                @Html.ActionLink("No Activity", "Index", new { sortOrder = ViewBag.NoActivity }, new { @class = "btn btn-lg btn-primary mb-5", @id = "btnsizeJPR" })
+                @Html.ActionLink("Reset", "Index", Model, new { @class = "btn btn-lg btn-primary mb-5", @id = "btnsizeJPR" })
+            </div>
+        </div>
+    </div>
+</p>
+}
+
+
+<div class="container">
+    <div class="col-sm-12">
+        <table class="table">
+            <tr>
+                <th></th>
+                <th class="text-center table-headers nameColumn" id="head-link">
+                    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+                <th class="text-center grey table-headers emailColumn">
+                    @Html.DisplayNameFor(model => model.StudentEmail)
+                </th>
+                <th id="head-link" class="text-center table-headers location-Column">
+                    @Html.ActionLink("Location", "Index", new { sortOrder = ViewBag.LocationSortParm })
+                </th>
+                <th id="head-link" class="text-center table-headers daysactiveColumn">
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm }) ">Days<br />Active</a>
+                </th>
+                <th class="text-center grey table-headers studlinkedColumn">
+                    @Html.DisplayNameFor(model => model.StudentLinkedIn)
+                </th>
+                <th class="text-center grey table-headers studportfolioColumn">
+                    @Html.DisplayNameFor(model => model.StudentPortfolio)
+                </th>
+                <th id="head-link" class="text-center table-headers totoalappsColumn">
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.TotalSortParm })">Total<br />Apps</a>
+                </th>
+                <th id="head-link" class="text-center table-headers weeklyappsColumn">
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.WeeklySortParm })">Weekly<br />Apps</a>
+                </th>
+
+                <th style="width:50px" class="text-center grey table-headers checkliststatsColumn">
+                    @Html.DisplayNameFor(model => model.CheckListStatus)
+                </th>
+
+                <th id="head-link" class="text-center table-headers lastcontactColumn">
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.LatestContactSortParm })">Last <br /> Contact</a>
+                </th>
+            </tr>
+            @{string emailList = string.Empty; }
+            @foreach (var item in Model)
+            {
+                string iStyle = null;
+                if (item.JPGraduated)
+                {
+                    iStyle = "fa fa-graduation-cap";
+                }
+
+                <tr class="text-center">
+                    <td>
+                        <i class="@iStyle" style="font-size:14px;color:darkorange"></i>
+                    </td>
+                    <td class="text-left nameColumn">
+                        @Html.DisplayFor(modelItem => item.StudentName)
+                    </td>
+                    <td class="text-center emailColumn">
+
+                        @{string emailString = item.StudentEmail;} <!-- declaring empty email string -->
+                        <a href="mailto:@Html.ExternalLink(item.StudentEmail)" target="_blank" class="emailLink" id="@item.JPStudentId">@emailString</a>
+                        <span id="emailList">
+                            @{
+                                emailList += emailString + ","; //concatenating emailString with next emailString to generate a list that will be passed to controller
+                            }
+                        </span>
+                    </td>
+                    <td class="text-center location-Column">
+                        @Html.DisplayFor(modelItem => item.StudentLocation)
+                    </td>
+                    <td class="text-center daysactiveColumn">
+                        @Html.DisplayFor(modelItem => item.StudentDayCount)
+                    </td>
+                    <td class="text-center studlinkedColumn">
+                        <a href="http://@Html.ExternalLink(item.StudentLinkedIn)" target="_blank">LinkedIn</a>
+                    </td>
+                    <td class="text-center studportfolioColumn">
+                        <a href="http://@Html.ExternalLink(item.StudentPortfolio)" target="_blank">Portfolio</a>
+                    </td>
+                    <td class="text-center totoalappsColumn">
+                        @Html.DisplayFor(modelItem => item.TotalApplications)
+                    </td>
+                    <td class="text-center weeklyappsColumn">
+                        @Html.DisplayFor(modelItem => item.TotalApplicationsThisWeek)
+                    </td>
+                    <td class="text-center checkliststatsColumn">
+                        <div class="dropdown">
+                            <button id="checklist-dropdown" class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                @item.CheckListStatus <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-menu item-wrapper">
+                                @if (item.JPBusinessCards == true)
+                                {
+                                    <a class="dropdown-item checklist-item" href="#"><label id="lastContactItem">business cards</label></a>
+                                }
+                                @if (item.JPCleanGitHub == true)
+                                {
+                                    <a class="dropdown-item checklist-item" href="#"><label id="lastContactItem">clean github</label></a>
+                                }
+                                @if (item.JPMeetUps == true)
+                                {
+                                    <a class="dropdown-item checklist-item" href="#"><label id="lastContactItem">meetups</label></a>
+                                }
+                                @if (item.JPUpdatedLinkedIn == true)
+                                {
+                                    <a class="dropdown-item checklist-item" href="#"><label id="lastContactItem">updated linkedin</label></a>
+                                }
+                                @if (item.JPUpdatedPortfolioSite == true)
+                                {
+                                    <a class="dropdown-item checklist-item" href="#"><label id="lastContactItem">updated portfolio site</label></a>
+                                }
+                                @if (item.JpRoundTables == true)
+                                {
+                                    <a class="dropdown-item checklist-item" href="#"><label id="lastContactItem">roundtables</label></a>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    @if (@item.CalculateLastContactDate == 0)
+                    {
+                        <td class="text-center ">
+                            Today
+                        </td>
+                    }
+                    else if (item.CalculateLastContactDate == 1)
+                    {
+                        <td class="text-center ">
+                            @item.CalculateLastContactDate Day Ago
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center lastcontactColumn">
+                            @item.CalculateLastContactDate Days Ago
+                        </td>
+                    }
+                    <td class="text-center font20">
+                        @Html.ActionLink(HttpUtility.HtmlDecode("&#x270E;"), "Edit", new { id = item.JPStudentId })
+                    </td>
+                </tr>
+
+            }
+            @{
+                int strLength = emailList.Length;
+                emailList = emailList.Substring(0, (strLength - 1)); //removes last comma
+            }
+        </table>
+
+        <br />
+        <button class="btn btn-primary" id="email-students" type="button">Email Students</button>
+    </div>
+    @{
+        // TODO: Assign real body text here. Perhaps make a function to convert .txt to string so in the future putting a .txt in the right file will change the content?
+        string gradBody = "&body=Graduating%20Text";
+        string applyBody = "&body=Applying%20Text";
+    }
+
+
+    <div id="email-students-popup">
+        <h6 class="mt-2">What is your email in regard to?</h6>
+        <form id="submit-form" method="post">
+            <input type="radio" name="email" value="graduating" checked="checked" />Graduating<br />
+            <input type="radio" name="email" value="applying" />Applying<br /><br />
+            <button class="btn btn-primary" type="submit" id="submit-button">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div id="loader"></div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(".emailLink").on("click", function () {
+            var jpid = this.id;
+            location.href = "/JPStudentRundown/Index?latestContact=" + jpid;
+        });
+
+        $(".dropdown-toggle").dropdown();
+    </script>
+
+
+    <!-- JS to toggle radio options when email button clicked-->
+    <script type="text/javascript">
+        $("#email-students-popup").hide();
+        $("#email-students").click(function () {
+            $("#email-students-popup").toggle();
+        });
+    </script>
+
+    <!-- JS for Sending Email -->
+    <script type="text/javascript">
+        var radioInput = "default"
+        $("#submit-form").submit(function () {
+            radioInput = $("input[name='email']:checked").val();
+            if (radioInput == "graduating") {
+
+                    $("#submit-form").attr("action", "@Html.Raw(@Url.Action("EmailAll", "JPStudentRundown", new { emailList = emailList , body = gradBody }))" );
+                    document.getElementById("submit-email").submit();
+                }
+                else if (radioInput == "applying") {
+                    $("#submit-form").attr("action", "@Html.Raw(@Url.Action("EmailAll", "JPStudentRundown", new { emailList =emailList, body = applyBody }))" );
+                    document.getElementById("submit-email").submit();
+                }
+                else {
+                    alert("Something went wrong");
+                }
+        });
+
+    </script>
+
+}
