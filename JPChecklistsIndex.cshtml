@@ -1,0 +1,67 @@
+﻿@model IEnumerable<JobPlacementDashboard.Models.JPChecklist>
+
+<div class="container">
+    <div class="col-sm-12">
+        <table class="table" align="center">
+            <tr>
+                <th class="navbar-left">
+                    Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JPBusinessCards)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JPMeetups)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JPUpdatedLinkedIn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JPUpdatedPortfolioSite)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JPCleanGitHub)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JpRoundTables)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="text-center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApplicationUser.FirstName)
+                        &nbsp;
+                        @Html.DisplayFor(modelItem => item.ApplicationUser.LastName)
+                    </td>
+                    <td class="checklistItems">
+                        @Html.DisplayFor(modelItem => item.JPBusinessCards)
+                    </td>
+                    <td class="checklistItems">
+                        @Html.DisplayFor(modelItem => item.JPMeetups)
+                    </td>
+                    <td class="checklistItems">
+                        @Html.DisplayFor(modelItem => item.JPUpdatedLinkedIn)
+                    </td>
+                    <td class="checklistItems">
+                        @Html.DisplayFor(modelItem => item.JPUpdatedPortfolioSite)
+                    </td>
+                    <td class="checklistItems">
+                        @Html.DisplayFor(modelItem => item.JPCleanGitHub)
+                    </td>
+                    <td class="checklistItems">
+                        @Html.DisplayFor(modelItem => item.JpRoundTables)
+                    </td>
+                    <td class="checklistItems">
+                        <span class="font-20">@Html.ActionLink(HttpUtility.HtmlDecode("&#x270E;"), "Edit", new { id = item.JPChecklistid })</span> |
+                        <span class="font-20">@Html.ActionLink(HttpUtility.HtmlDecode("&#x1F5D1;"), "Delete", new { id = item.JPChecklistid },
+                                         new { onclick = "return confirm('Are you sure you want to delete?');" })</span>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
